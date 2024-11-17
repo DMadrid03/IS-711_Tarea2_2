@@ -1,25 +1,17 @@
 import { Router,json } from "express";
+import {ProductsController} from "../controllers/productsController.js";
+
 
 const productRouter = Router();
 
 productRouter.use(json());
-productRouter.get("/", (req, res) => {
-    res.json({ message: "Hello world (get)" });
-});
+productRouter.get("/", ProductsController.getAllProducts);
 
-productRouter.get("/:id", (req, res) => {
-    res.json({ message: "Hello world (get/:id)" });
-});
+productRouter.get("/:id", ProductsController.getProductById);
 
-productRouter.post("/", (req, res) => {
-    res.json({ message: "Hello world (post)" });
-})
+productRouter.post("/", ProductsController.createProduct);
 
-productRouter.put("/:id", (req, res) => {
-    res.json({ message: "Hello world (put/:id)" });
-})
+productRouter.put("/:id", ProductsController.updateProduct)
 
-productRouter.delete("/:id", (req, res) => {
-    res.json({ message: "Hello world (delete/:id)" });
-})
+productRouter.delete("/:id", ProductsController.deleteProduct)
 export default productRouter;
