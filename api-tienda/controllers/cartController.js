@@ -102,8 +102,11 @@ export class CartController {
     static removeFromCart(req, res) {
         const {producto_id} = req.params;
 
+        
         const{usuario_id} = req.body;
-        console.log(producto_id,usuario_id)
+        if(!usuario_id){
+            return res.status(400).json({message: "Obligatorio enviar usuario_id"})
+        }
         //para distinguir del carrito de que usuario, recibir el usuario_id
         const query = "delete from carrito where producto_id = ? and usuario_id = ?";
 
