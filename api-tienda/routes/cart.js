@@ -1,19 +1,16 @@
 import { Router ,json} from "express";
-
+import {CartController} from "../controllers/cartController.js";
 const cartRouter = Router();
 
 cartRouter.use(json());
 
-cartRouter.get("/:userID", (req, res) => {
-    res.json({ message: "Hello world (get/:userID)" });
-});
+cartRouter.get("/:userID", CartController.getCartByUser);
 
-cartRouter.post("/", (req, res) => {
-    res.json({ message: "Hello world from cartRouter (post)" });
-})
+cartRouter.post("/", CartController.addToCart);
 
-cartRouter.delete("/:id", (req, res) => {
-    res.json({ message: "Hello world from cartRouter (delete/:id)" });
-})
+cartRouter.delete("/:producto_id", CartController.removeFromCart)
 
+
+//ruta por defecto para rutas inexistentes
+cartRouter.all("*", (req, res) => res.status(404).json({ message: "Ruta no encontrada" }));
 export default cartRouter;

@@ -5,7 +5,7 @@ export class ProductsController {
 
     static getAllProducts(req,res) {        
 
-        const query = 'select p.id,p.nombre,p.descripcion,p.precio,p.stock,p.categoria,p.fecha_creacion,dp.id,color,talla,precio,dimensiones from productos p inner join detalles_producto dp on dp.producto_id = p.id;'
+        const query = 'select p.id id_Producto,p.nombre,p.descripcion,p.precio,p.stock,p.categoria,p.fecha_creacion,dp.id detID,color,talla,precio,dimensiones from productos p left join detalles_producto dp on dp.producto_id = p.id;'
 
         try {
             connection.query(query,(error,results)=>{
@@ -25,7 +25,7 @@ export class ProductsController {
 
     static getProductById(req,res){
         const {id} = req.params
-
+        console.log(id)
         const query = 'select p.id id_Producto,p.nombre,p.descripcion,p.precio,p.stock,p.categoria,p.fecha_creacion,dp.id detID,color,talla,precio,dimensiones from productos p left join detalles_producto dp on dp.producto_id = p.id where p.id = ?;'
 
         try {
@@ -132,7 +132,6 @@ export class ProductsController {
 
     static deleteProduct(req,res){
         const {id} = req.params
-
         const query = "delete from productos where id = ?"
 
         try {
@@ -140,6 +139,10 @@ export class ProductsController {
             connection.query(query,id,(error,results)=>{
                 if(error){
                     res.status(400).json({message: "error al eliminar el producto en la base de datos, " + error})
+                }
+
+                if(results && results.affectedRows===0){
+                    return res.status(400).json({message: "Producto no encontrado"})
                 }
                 return res
                 .header({"Content-Type": "application/json"})

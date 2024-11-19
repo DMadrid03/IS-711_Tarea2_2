@@ -10,7 +10,7 @@ const productSchema = z.object({
     "talla": z.string().trim().min(1).nullable(),
     "peso": z.number().min(0),
     "dimensiones": z.string().nullable()
-});
+}).strict();
 
 export const validateProductSchema = (prod) => productSchema.safeParse(prod);
 export const validatePartialSchema = (prod) => productSchema.partial().safeParse(prod);
